@@ -13,7 +13,7 @@ public partial class Asegurado
 
     public int TelefonoAsegurado { get; set; }
 
-    public DateOnly FechaNacimiento { get; set; }
+    public DateTime FechaNacimiento { get; set; }
 
     public virtual ICollection<Seguroasegurado> Seguroasegurados { get; set; } = new List<Seguroasegurado>();
 }

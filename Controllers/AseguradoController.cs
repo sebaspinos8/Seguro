@@ -17,7 +17,7 @@ public class requestAsegurado
   public string nombreAsegurado {set;get;}
 
   public int telefonoasegurado {set;get;}
-  public DateOnly fechaNacimientoAsegurado {set;get;}
+  public DateTime fechaNacimientoAsegurado {set;get;}
 }
 
 
