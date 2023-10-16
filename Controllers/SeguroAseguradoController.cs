@@ -58,22 +58,27 @@ public class SeguroAseguradoController : Controller
     [HttpGet("/GetAseguradosPorCodigo")]
     public IActionResult GetSegurosCodigo(string codigo)
     {
-        var seguro = _context.Seguros.Find(codigo);
+        var seguro = _context.Seguros.Where(x=>x.CodigoSeguro==codigo).FirstOrDefault();
         var listaSeguros = _context.Seguroasegurados.Where(x=>x.IdSeguro == seguro.IdSeguro).Select(y=>y.IdAsegurado).ToList();
-        var listaResp = _context.Asegurados.Where(x=>listaSeguros.All(y=>y == x.IdAsegurado)).ToList();
+        var aux = from auxiliar in listaSeguros
+                  join todos in _context.Asegurados
+                  on auxiliar equals todos.IdAsegurado
+                  select todos;
         
-        return Ok(listaResp);
+        return Ok(aux.ToList());
     }
 
 
     [HttpGet("/GetSegurosPorCedula")]
     public IActionResult GetSegurosCedula(string cedula)
     {
-        var asegurado = _context.Asegurados.Find(cedula);
-        var listaSeguros = _context.Seguroasegurados.Where(x=>x.IdAsegurado == asegurado.IdAsegurado).Select(y=>y.IdSeguro).ToList();
-        var listaResp = _context.Seguros.Where(x=>listaSeguros.All(y=>y == x.IdSeguro)).ToList();
-        
-        return Ok(listaResp);
+        var asegurado = _context.Asegurados.Where(x=>x.CedulaAsegurado==cedula).FirstOrDefault();
+        var listaSeguros = _context.Seguroasegurados.Where(x=>x.IdAsegurado == asegurado.IdAsegurado).ToList().Select(y=>y.IdSeguro).ToList();
+        var aux = from auxiliar in listaSeguros
+                  join todos in _context.Seguros
+                  on auxiliar equals todos.IdSeguro
+                  select todos;
+        return Ok(aux.ToList());
     }
 
 

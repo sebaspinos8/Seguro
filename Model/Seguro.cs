@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Seguro.Model;
 
@@ -15,5 +16,6 @@ public partial class Seguros
 
     public decimal Prima { get; set; }
 
+    [JsonIgnore]
     public virtual ICollection<Seguroasegurado> Seguroasegurados { get; set; } = new List<Seguroasegurado>();
 }
