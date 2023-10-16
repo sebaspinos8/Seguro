@@ -46,6 +46,14 @@ public class SeguroAseguradoController : Controller
         return Ok(listaSeguros);
     }
 
+    [HttpGet("/GetSegurosAsegurados")]
+    public IActionResult GetAS(int idAsegurado,int idSeguro)
+    {
+        var listaSeguros = _context.Seguroasegurados.Where(x=>x.IdAsegurado == idAsegurado && x.IdSeguro==idSeguro).ToList();
+        
+        return Ok(listaSeguros);
+    }
+
 
     [HttpPost("/CreateSeguroAsegurados")]
     public IActionResult CrearSeguro(int idSeguro, int idAsegurado)
