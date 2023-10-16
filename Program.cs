@@ -2,7 +2,7 @@
 using Seguro.Model;
 
 using Microsoft.EntityFrameworkCore;
-using MySQL.Data.EntityFrameworkCore;
+
 
 var builder = WebApplication.CreateBuilder(args);
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
