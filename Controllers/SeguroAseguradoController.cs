@@ -62,7 +62,7 @@ public class SeguroAseguradoController : Controller
         try{
             _context.Seguroasegurados.Update(seguroAsegurado);
             _context.SaveChanges();
-            return Ok("Actualizado con exito");
+            return Ok(new Dictionary<string,string>{{"message", "Actualizado con exito"}});
         }catch(Exception ex){
             return BadRequest("Error al actualizar "+ex.ToString());
         }
@@ -76,7 +76,7 @@ public class SeguroAseguradoController : Controller
             var seguro = _context.Seguroasegurados.Where(x=>x.IdseguroAsegurado == id).FirstOrDefault();
             _context.Seguroasegurados.Remove(seguro);
             _context.SaveChanges();
-            return Ok("Eliminado con exito");
+            return Ok(new Dictionary<string,string>{{"message", "Eliminado con exito"}});
         }catch(Exception ex){
             return BadRequest("Error al eliminar "+ex.ToString());
         }
