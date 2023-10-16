@@ -33,7 +33,7 @@ public class SeguroAseguradoController : Controller
     [HttpGet("/GetSegurosxClienteDisponibles")]
     public IActionResult GetCliente(int idAsegurado)
     {
-        var listaSeguros = _context.Seguros.Where(p=>!_context.Seguroasegurados.Any(p2=>p2.IdSeguro == p.IdSeguro)).ToList();
+        var listaSeguros = _context.Seguros.Where(p=>!_context.Seguroasegurados.Where(x=>x.IdAsegurado==idAsegurado).Any(p2=>p2.IdSeguro == p.IdSeguro)).ToList();
         
         return Ok(listaSeguros);
     }
@@ -41,7 +41,7 @@ public class SeguroAseguradoController : Controller
     [HttpGet("/GetSegurosxClienteNoDisponibles")]
     public IActionResult GetClienteAsegurados(int idAsegurado)
     {
-        var listaSeguros = _context.Seguros.Where(p=>_context.Seguroasegurados.Any(p2=>p2.IdSeguro == p.IdSeguro)).ToList();
+        var listaSeguros = _context.Seguros.Where(p=>_context.Seguroasegurados.Where(x=>x.IdAsegurado==idAsegurado).Any(p2=>p2.IdSeguro == p.IdSeguro)).ToList();
         
         return Ok(listaSeguros);
     }
