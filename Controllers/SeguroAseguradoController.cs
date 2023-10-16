@@ -30,6 +30,22 @@ public class SeguroAseguradoController : Controller
         return Ok(_context.Seguroasegurados.ToList());
     }
 
+    [HttpGet("/GetSegurosxClienteDisponibles")]
+    public IActionResult GetCliente(int idAsegurado)
+    {
+        var listaSeguros = _context.Seguros.Where(p=>!_context.Seguroasegurados.Any(p2=>p2.IdSeguro == p.IdSeguro)).ToList();
+        
+        return Ok(listaSeguros);
+    }
+
+    [HttpGet("/GetSegurosxClienteNoDisponibles")]
+    public IActionResult GetClienteAsegurados(int idAsegurado)
+    {
+        var listaSeguros = _context.Seguros.Where(p=>_context.Seguroasegurados.Any(p2=>p2.IdSeguro == p.IdSeguro)).ToList();
+        
+        return Ok(listaSeguros);
+    }
+
 
     [HttpPost("/CreateSeguroAsegurados")]
     public IActionResult CrearSeguro(int idSeguro, int idAsegurado)
@@ -81,6 +97,9 @@ public class SeguroAseguradoController : Controller
             return BadRequest("Error al eliminar "+ex.ToString());
         }
     }
+
+
+
 
 
 }

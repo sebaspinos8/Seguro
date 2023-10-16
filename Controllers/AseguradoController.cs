@@ -18,6 +18,7 @@ public class requestAsegurado
 
   public int telefonoasegurado {set;get;}
   public DateTime fechaNacimientoAsegurado {set;get;}
+  
 }
 
 
