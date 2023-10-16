@@ -6,6 +6,7 @@ using System.Data.Common;
 using Microsoft.AspNetCore.Mvc;
 using Seguro.Model;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace Seguro.Controllers;
 
@@ -33,8 +34,8 @@ public class SeguroAseguradoController : Controller
     [HttpGet("/GetSegurosxClienteDisponibles")]
     public IActionResult GetCliente(int idAsegurado)
     {
-        var listaSeguros = _context.Seguros.Where(p=>!_context.Seguroasegurados.Where(x=>x.IdAsegurado==idAsegurado).Any(p2=>p2.IdSeguro == p.IdSeguro)).ToList();
-        
+        var listaSeguros = _context.Seguros.Where(p=>!_context.Seguroasegurados.Any(p2=>p2.IdSeguro == p.IdSeguro)).ToList();
+        //var listaFinal = listaSeguros.Where(x=>x.IdAsegurado==idAsegurado);
         return Ok(listaSeguros);
     }
 
@@ -52,6 +53,27 @@ public class SeguroAseguradoController : Controller
         var listaSeguros = _context.Seguroasegurados.Where(x=>x.IdAsegurado == idAsegurado && x.IdSeguro==idSeguro).ToList();
         
         return Ok(listaSeguros);
+    }
+
+    [HttpGet("/GetAseguradosPorCodigo")]
+    public IActionResult GetSegurosCodigo(string codigo)
+    {
+        var seguro = _context.Seguros.Find(codigo);
+        var listaSeguros = _context.Seguroasegurados.Where(x=>x.IdSeguro == seguro.IdSeguro).Select(y=>y.IdAsegurado).ToList();
+        var listaResp = _context.Asegurados.Where(x=>listaSeguros.All(y=>y == x.IdAsegurado)).ToList();
+        
+        return Ok(listaResp);
+    }
+
+
+    [HttpGet("/GetSegurosPorCedula")]
+    public IActionResult GetSegurosCedula(string cedula)
+    {
+        var asegurado = _context.Asegurados.Find(cedula);
+        var listaSeguros = _context.Seguroasegurados.Where(x=>x.IdAsegurado == asegurado.IdAsegurado).Select(y=>y.IdSeguro).ToList();
+        var listaResp = _context.Seguros.Where(x=>listaSeguros.All(y=>y == x.IdSeguro)).ToList();
+        
+        return Ok(listaResp);
     }
 
 
@@ -105,6 +127,8 @@ public class SeguroAseguradoController : Controller
             return BadRequest("Error al eliminar "+ex.ToString());
         }
     }
+
+
 
 
 
